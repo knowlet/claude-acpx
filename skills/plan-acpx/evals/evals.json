@@ -1,0 +1,60 @@
+{
+  "skill_name": "plan-acpx",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan adding JWT authentication to the API with refresh tokens, token rotation, and logout support.",
+      "expected_output": "Claude launches a Plan agent, saves the plan to .claude/plan/, audits it through acpx until approved, presents the plan, and stops.",
+      "files": [],
+      "expectations": [
+        "Claude launches a Task agent with subagent_type 'Plan' for plan creation",
+        "Claude saves the plan to .claude/plan/<feature-name>.md",
+        "Claude reads acpx-auditor-role.md from the skill directory",
+        "Claude ensures or creates a named acpx session such as 'plan-audit'",
+        "Claude calls acpx through Bash with read-only style permissions such as --approve-reads",
+        "Claude reuses the same named acpx session for follow-up audit rounds",
+        "Claude presents the plan and suggests /execute-acpx or /claude-acpx next",
+        "Claude does NOT modify production code",
+        "Claude does NOT auto-execute the plan"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Plan migrating our environment variable configuration from process.env usage scattered across files to a typed config module with validation.",
+      "expected_output": "Claude creates the plan, audits it through acpx, revises it based on findings, and re-audits in the same named session until approved or the iteration cap is reached.",
+      "files": [],
+      "expectations": [
+        "Claude saves the plan to .claude/plan/ before the first acpx audit",
+        "Claude invokes acpx through Bash rather than relying on an MCP tool call",
+        "If Codex returns issues, Claude revises the plan file before re-auditing",
+        "Claude reuses the same named acpx session for iterations 2-3",
+        "Claude challenges questionable findings inside the same session instead of starting a new conversation",
+        "After 3 fix-and-re-audit cycles without APPROVED, Claude stops and asks the user for direction"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan something for the backend.",
+      "expected_output": "Claude asks clarifying questions before launching the planner because the input is too vague.",
+      "files": [],
+      "expectations": [
+        "Claude identifies the input as ambiguous or lacking detail",
+        "Claude asks the user clarifying questions before proceeding",
+        "Claude does NOT launch the Plan agent with the vague description as-is"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan adding a WebSocket notification system for real-time order updates.",
+      "expected_output": "Claude detects that acpx-backed Codex audit is unavailable and stops instead of delivering an unaudited plan.",
+      "files": [],
+      "expectations": [
+        "Claude launches the Plan agent and creates the plan successfully",
+        "Claude checks that acpx or the Codex adapter can start before the audit phase",
+        "Claude stops and tells the user that this skill requires acpx-backed Codex audit",
+        "Claude does NOT deliver the plan without the audit loop",
+        "Claude does NOT silently fall back to a non-Codex audit"
+      ]
+    }
+  ]
+}

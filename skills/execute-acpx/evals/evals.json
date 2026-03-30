@@ -1,0 +1,59 @@
+{
+  "skill_name": "execute-acpx",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Fix the typo in the error message in user.service.ts line 42 — it says 'Uzer' instead of 'User'.",
+      "expected_output": "Claude classifies the task as small, implements it directly, launches code-reviewer, and delivers.",
+      "files": [],
+      "expectations": [
+        "Claude announces a routing decision containing 'Small change' before implementing",
+        "Claude implements with Edit or Write tools",
+        "Claude does NOT call acpx for implementation on the small route",
+        "Claude launches a code-reviewer Task agent after implementation",
+        "Claude delivers with a route summary showing Small"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a caching layer with Redis to the user service, session service, and product service — including connection pooling, cache invalidation, and TTL configuration.",
+      "expected_output": "Claude classifies the task as large, reads the architect role, routes implementation through acpx, launches code-reviewer, and delivers.",
+      "files": [],
+      "expectations": [
+        "Claude announces a routing decision containing 'Large change' before implementing",
+        "Claude reads acpx-architect-role.md from the skill directory",
+        "Claude invokes acpx through Bash with write-enabled permissions such as --approve-all",
+        "Claude creates or ensures a named acpx session for the large-route implementation",
+        "Claude launches a code-reviewer Task agent after the acpx implementation",
+        "Claude delivers with a route summary showing Large"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor the authentication middleware to use async/await instead of callbacks, update all 4 route files that import it, and add proper error handling.",
+      "expected_output": "Claude classifies the task as large, detects that acpx is unavailable, announces the fallback, and completes the work through the small-route implementation path instead of stopping.",
+      "files": [],
+      "expectations": [
+        "Claude classifies this as a large change",
+        "Claude checks whether acpx or the Codex adapter can start",
+        "Claude announces a fallback to Claude implementation when acpx is unavailable",
+        "Claude does NOT stop or ask the user to add Codex MCP",
+        "Claude launches code-reviewer after implementation",
+        "Claude delivers successfully despite the fallback"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a new 'preferences' column to the users table and update the user model, migration, seed file, and API response serializer.",
+      "expected_output": "Claude classifies the task as large and dispatches per-task acpx sessions because there are multiple implementation tasks.",
+      "files": [],
+      "expectations": [
+        "Claude identifies multiple implementation tasks and dispatches Task subagents or equivalent per-task handling",
+        "Claude records git SHA before each task",
+        "Each large-route task uses its own named acpx session",
+        "Claude runs git diff after each task to verify scoped changes",
+        "Claude launches code-reviewer after all tasks complete"
+      ]
+    }
+  ]
+}

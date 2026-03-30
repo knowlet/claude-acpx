@@ -1,0 +1,61 @@
+{
+  "skill_name": "tdd-claude-acpx",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": ".claude/plan/email-validation.md",
+      "expected_output": "Claude reads the plan, writes tests first, audits the tests through acpx, implements locally, and reviews the final diff through acpx.",
+      "files": [],
+      "expectations": [
+        "Claude reads the plan file at .claude/plan/email-validation.md",
+        "Claude extracts task description and implementation steps from the plan",
+        "Claude writes test files before any production code",
+        "Claude runs the new tests and verifies RED",
+        "Claude reads tdd-specialist-role.md from the skill directory",
+        "Claude audits the tests through acpx before implementation when acpx is available",
+        "Claude implements minimal code to make the tests pass",
+        "Claude runs a separate final review loop through acpx against git diff $START_SHA",
+        "Delivery includes RED/GREEN confirmation and review status"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a feature that partially exists — extend the existing password validation to also check for special characters.",
+      "expected_output": "Claude writes tests, discovers they pass unexpectedly in RED, revises them, and does not proceed until RED is genuine.",
+      "files": [],
+      "expectations": [
+        "Claude writes test files first",
+        "Claude runs new tests and detects that they pass unexpectedly",
+        "Claude flags the tests as wrong for RED",
+        "Claude revises the tests to target the new behavior",
+        "Claude re-runs the revised tests and confirms RED before proceeding"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add rate limiting to the login endpoint with TDD.",
+      "expected_output": "Claude detects a dirty worktree and stops before writing tests.",
+      "files": [],
+      "expectations": [
+        "Claude checks git status for uncommitted changes in the baseline phase",
+        "Claude detects dirty worktree state",
+        "Claude stops and asks the user to commit or stash changes",
+        "Claude does NOT write test files or production code"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add input sanitization to the comment submission function using TDD.",
+      "expected_output": "Test audit degrades gracefully if acpx is unavailable, but the final implementation review fails closed.",
+      "files": [],
+      "expectations": [
+        "Claude writes tests first and verifies RED",
+        "Claude notes that the acpx test audit was skipped when acpx is unavailable",
+        "Claude proceeds to implement despite the skipped test audit",
+        "Claude checks acpx availability again before the final review",
+        "Claude stops at the final review phase and tells the user that acpx-backed Codex review is required",
+        "Claude does NOT deliver without the final review"
+      ]
+    }
+  ]
+}

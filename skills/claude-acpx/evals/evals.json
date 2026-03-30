@@ -1,0 +1,59 @@
+{
+  "skill_name": "claude-acpx",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the plan at .claude/plan/jwt-auth.md — it adds JWT authentication with refresh tokens to the Express API.",
+      "expected_output": "Claude reads the plan, implements the changes locally, reviews the diff through acpx with a structured verdict, fixes CRITICAL/HIGH issues, and delivers a summary.",
+      "files": [],
+      "expectations": [
+        "Claude reads the plan file before implementing",
+        "Claude uses Edit or Write tools to modify production files",
+        "Claude reads acpx-reviewer-role.md from the skill directory",
+        "Claude invokes acpx through Bash for the review phase",
+        "The review prompt asks for 'VERDICT: APPROVED | WARNING | BLOCKED'",
+        "Claude reuses the same named acpx review session for follow-up review rounds",
+        "Claude reports the final review result in delivery"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add input validation to the registration endpoint — validate email format, password strength, and username length.",
+      "expected_output": "Claude implements directly from the inline task description, then runs the review through acpx and delivers.",
+      "files": [],
+      "expectations": [
+        "Claude does NOT require a plan file",
+        "Claude calls acpx after implementation",
+        "The review prompt tells Codex to inspect git diff HEAD",
+        "If Codex returns WARNING or BLOCKED, Claude fixes accepted CRITICAL/HIGH issues before re-reviewing",
+        "If MEDIUM/LOW issues remain, Claude asks the user whether to fix them",
+        "Delivery includes the changed files and review result"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a caching layer to the user service, session service, product service, order service, and notification service.",
+      "expected_output": "Claude dispatches subagents for the 5+ tasks, then runs a single external review loop through acpx.",
+      "files": [],
+      "expectations": [
+        "Claude identifies this as 3+ implementation tasks and dispatches Task subagents",
+        "Claude records git SHA before each subagent dispatch",
+        "Claude runs git diff after each subagent to verify changes",
+        "Claude runs scoped lint/tests after each subagent completes",
+        "Claude invokes acpx for the final review after all subagents complete"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a health check endpoint to the API server.",
+      "expected_output": "Claude detects that acpx review is unavailable and stops with a clear error message instead of delivering without review.",
+      "files": [],
+      "expectations": [
+        "Claude checks that acpx or the Codex adapter can start before the review phase",
+        "Claude stops and tells the user that this skill requires acpx-backed Codex review",
+        "Claude does NOT deliver a completion summary without the review loop",
+        "Claude does NOT silently fall back to a non-Codex review"
+      ]
+    }
+  ]
+}

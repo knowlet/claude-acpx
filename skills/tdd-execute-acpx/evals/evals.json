@@ -1,0 +1,66 @@
+{
+  "skill_name": "tdd-execute-acpx",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": ".claude/plan/projects-crud-api.md",
+      "expected_output": "Claude reads the plan, writes tests first, audits the tests through acpx, classifies the implementation as large, routes it through acpx, and finishes with code-reviewer.",
+      "files": [],
+      "expectations": [
+        "Claude reads the plan file at .claude/plan/projects-crud-api.md",
+        "Claude extracts task description and implementation steps from the plan",
+        "Claude writes test files first and verifies RED",
+        "Claude reads tdd-specialist-role.md for test-writing guidance",
+        "Claude audits the tests through acpx before implementing when acpx is available",
+        "Claude classifies the production-code scope as large while excluding test files",
+        "Claude announces a large-route decision before implementing",
+        "Claude reads acpx-architect-role.md before the large-route implementation",
+        "The acpx implementation prompt includes the failing test files and forbids test modification",
+        "Claude launches code-reviewer after implementation",
+        "Delivery includes TDD summary and route outcome"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Fix the off-by-one error in the pagination helper — it returns 11 items when limit is 10.",
+      "expected_output": "Claude writes tests first, audits them if acpx is available, classifies the implementation as small, implements locally, and finishes with code-reviewer.",
+      "files": [],
+      "expectations": [
+        "Claude writes test files first and verifies RED",
+        "Claude performs the acpx test audit when available",
+        "Claude classifies the implementation as a small change",
+        "Claude announces the small-route decision before implementing",
+        "Claude implements with Edit/Write rather than acpx on the small route",
+        "Claude verifies the tests pass after implementation",
+        "Claude launches code-reviewer after implementation"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add logging middleware to all API routes using TDD.",
+      "expected_output": "Claude detects a dirty worktree and stops before writing tests.",
+      "files": [],
+      "expectations": [
+        "Claude checks git status during the baseline phase",
+        "Claude detects dirty worktree state",
+        "Claude stops and asks the user to commit or stash",
+        "Claude does NOT write test files or proceed to implementation"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add file upload validation to the attachment endpoint — check file type, size limit, and virus scan hook — using TDD.",
+      "expected_output": "Claude writes tests, classifies the implementation as large, but falls back to local implementation when acpx is unavailable.",
+      "files": [],
+      "expectations": [
+        "Claude writes test files first and verifies RED",
+        "Claude notes that the acpx test audit was skipped when acpx is unavailable",
+        "Claude classifies the implementation as a large change",
+        "Claude checks acpx availability for the large route and detects that it is unavailable",
+        "Claude falls back to Claude implementation instead of stopping",
+        "Claude launches code-reviewer for the final review",
+        "Claude delivers successfully despite the fallback"
+      ]
+    }
+  ]
+}
