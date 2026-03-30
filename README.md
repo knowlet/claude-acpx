@@ -79,7 +79,7 @@ claude plugin add claude-plugins-official/feature-dev
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/<your-username>/claude-acpx
+git clone https://github.com/knowlet/claude-acpx
 cd claude-acpx
 ```
 
@@ -91,10 +91,10 @@ Project-local install:
 npx skills add . --agent claude-code --yes
 ```
 
-Global install from a published repo:
+Install from the published repo:
 
 ```bash
-npx skills add <your-username>/claude-acpx --agent claude-code --global --yes
+npx skills add knowlet/claude-acpx
 ```
 
 Inspect what will be installed:
